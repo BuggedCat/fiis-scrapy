@@ -23,7 +23,7 @@ class FnetDocumentsSpider(scrapy.Spider):
     custom_settings = {
         "LOG_LEVEL": "INFO",
         "FEEDS": {
-            "s3://bronze/%(name)s/reference_date=%(today)s/data.json": {
+            "s3://scrapy-fiis-bronze/%(name)s/reference_date=%(today)s/data.json": {
                 "format": "json",
                 "encoding": "utf8",
                 "indent": 0,
