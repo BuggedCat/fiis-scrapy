@@ -1,3 +1,6 @@
+import boto3
+
+
 def strtobool(val: str | bool) -> bool:
     """
     Converts a string or boolean to a boolean value.
@@ -21,3 +24,23 @@ def strtobool(val: str | bool) -> bool:
         return False
     else:
         raise ValueError(f"Invalid boolean string: '{val}'.")
+
+
+def start_s3_client():
+    session = boto3.Session(
+        aws_access_key_id="minio",
+        aws_secret_access_key="p@ssw0rd",
+    )
+    return session.client(
+        "s3",
+        endpoint_url="http://localhost:9000",
+    )
+
+
+def write_to_s3(s3_client, file_content: bytes, bucket: str, object_key: str):
+    response = s3_client.put_object(
+        Body=file_content,
+        Bucket=bucket,
+        Key=object_key,
+    )
+    return response
