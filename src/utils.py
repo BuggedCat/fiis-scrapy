@@ -26,21 +26,19 @@ def strtobool(val: str | bool) -> bool:
         raise ValueError(f"Invalid boolean string: '{val}'.")
 
 
-def start_s3_client():
+def start_s3_client(
+    aws_access_key_id: str | None = None,
+    aws_secret_access_key: str | None = None,
+    endpoint_url: str | None = None,
+    environment: str = "dev",
+):
     session = boto3.Session(
-        aws_access_key_id="minio",
-        aws_secret_access_key="p@ssw0rd",
+        aws_access_key_id=aws_access_key_id,
+        aws_secret_access_key=aws_secret_access_key,
     )
-    return session.client(
-        "s3",
-        endpoint_url="http://localhost:9000",
-    )
-
-
-def write_to_s3(s3_client, file_content: bytes, bucket: str, object_key: str):
-    response = s3_client.put_object(
-        Body=file_content,
-        Bucket=bucket,
-        Key=object_key,
-    )
-    return response
+    if environment.lower() == "dev":
+        return session.client(
+            "s3",
+            endpoint_url=endpoint_url,
+        )
+    return session.client("s3")

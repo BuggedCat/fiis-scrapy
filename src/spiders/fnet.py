@@ -7,6 +7,8 @@ import scrapy
 from dateutil.relativedelta import relativedelta
 from scrapy.http import TextResponse
 
+from src.utils import strtobool
+
 BASE_URL = "https://fnet.bmfbovespa.com.br/fnet/publico/pesquisarGerenciadorDocumentosDados"
 ITENS_POR_PAGINA = 200
 TIPO_FUNDO = 1
@@ -63,7 +65,7 @@ class FnetDocumentsSpider(scrapy.Spider):
             "idCategoriaDocumento": ID_CATEGORIA_DOCUMENTO,
         }
 
-        full = bool(getattr(self, "full", False))
+        full = strtobool(getattr(self, "full", False))
         if not full:
             start_date = datetime.today() - relativedelta(months=1)
             request_params["dataInicial"] = start_date.strftime("%d/%m/%Y")

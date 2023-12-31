@@ -6,15 +6,15 @@ from src.utils import strtobool
 
 load_dotenv()
 
-environment = os.getenv("ENVIRONMENT", "dev")
+ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 
-if environment == "dev":
+if ENVIRONMENT == "dev":
     # Minio access, not required if storing data locally
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", default=None)
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", default=None)
     AWS_ENDPOINT_URL = os.getenv("AWS_ENDPOINT", default=None)
     AWS_SESSION_TOKEN = os.getenv("AWS_SESSION_TOKEN", default=None)
-if environment == "prod":
+if ENVIRONMENT == "prod":
     SCRAPEOPS_API_KEY = os.getenv("SCRAPEOPS_KEY")
 
 
@@ -64,7 +64,7 @@ ROBOTSTXT_OBEY = strtobool(os.getenv("ROBOTSTXT_OBEY", True))
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-if environment == "prod":
+if ENVIRONMENT == "prod":
     DOWNLOADER_MIDDLEWARES = {
         "scrapeops_scrapy.middleware.retry.RetryMiddleware": 550,
         "scrapy.downloadermiddlewares.retry.RetryMiddleware": None,
@@ -72,7 +72,7 @@ if environment == "prod":
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
-if environment == "prod":
+if ENVIRONMENT == "prod":
     EXTENSIONS = {
         "scrapeops_scrapy.extension.ScrapeOpsMonitor": 500,
     }
@@ -87,7 +87,7 @@ if environment == "prod":
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 1
 # The maximum download delay to be set in case of high latencies
 AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
